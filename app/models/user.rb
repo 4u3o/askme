@@ -4,15 +4,17 @@ class User < ApplicationRecord
   ITERATIONS = 20_000
   DIGEST = OpenSSL::Digest("SHA256").new
 
-  has_many :questions
-
-  validates :email, :username, presence: true
-  validates :email, :username, uniqueness: true
-
   attr_accessor :password
 
-  validates_presence_of :password, on: create
-  validates_confirmation_of :password
+  has_many :questions
+
+  validates :password, presence: true, on: :create
+  validates :password, confirmation: true
+  validates :email, :username, :password_confirmation, presence: true
+  validates :email, :username, uniqueness: true
+  validates :email, email: true
+  validates :username, length: { maximum: 40 }
+  validates :username, format: { without: /[^\w]/ }
 
   before_save :encrypt_password
 
@@ -35,14 +37,15 @@ class User < ApplicationRecord
   def self.authenticate(email, password)
     user = find_by(email: email)
 
-    correct_user =
-      user.present? &&
-      user.password_hash == User.hash_to_string(
+    return nil unless user.present?
+
+    hashed_password =
+      User.hash_to_string(
         OpenSSL::PKCS5.pbkdf2_hmac(
           password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST
         )
       )
 
-    correct_user ? user : nil
+    user.password_hash == hashed_password ? user : nil
   end
 end
