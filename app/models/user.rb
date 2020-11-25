@@ -8,14 +8,17 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  validates :email, presence: true, uniqueness: true, email: true
+  validates :email,
+            presence: true, uniqueness: true,
+            format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username,
-            presence: true, uniqueness: { case_sensitive: false },
-            length: { maximum: 40 }, format: { without: /[^\w]/ }
+            presence: true, uniqueness: true,
+            length: { maximum: 40 }, format: { without: /\W/ }
   validates :password, confirmation: true, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
 
-  before_save :encrypt_password, :downcase_username
+  before_validation :downcase_username
+  before_save :encrypt_password
 
   def self.hash_to_string(password_hash)
     password_hash.unpack('H*')[0]
