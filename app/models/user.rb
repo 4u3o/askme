@@ -8,13 +8,12 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  validates :password, presence: true, on: :create
-  validates :password, confirmation: true
-  validates :email, :username, :password_confirmation, presence: true
-  validates :email, :username, uniqueness: true
-  validates :email, email: true
-  validates :username, length: { maximum: 40 }
-  validates :username, format: { without: /[^\w]/ }
+  validates :email, presence: true, uniqueness: true, email: true
+  validates :username,
+            presence: true, uniqueness: { case_sensitive: false },
+            length: { maximum: 40 }, format: { without: /[^\w]/ }
+  validates :password, confirmation: true, presence: true, on: :create
+  validates :password_confirmation, presence: true, on: :create
 
   before_save :encrypt_password
 
