@@ -12,6 +12,10 @@
     @<%= @user.username %>
   </h2>
 
+  <p>
+    <%= @questions_count %> <%= declension @questions_count, 'вопрос', 'вопроса', 'вопросов' %>
+  </p>
+
   <div class="user-ask-button container text-center">
     <%= link_to "Спроси меня", '', class: 'button button-light', id: 'ask-button' %>
   </div>

@@ -8,7 +8,6 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
-
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
@@ -16,14 +15,4 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-document.addEventListener('DOMContentLoaded', () => {
-  const askButton = document.getElementById('ask-button')
-  const askForm = document.getElementById('ask-form')
-  askButton.addEventListener('click', (event) => {
-    event.preventDefault()
-    setTimeout(() => {
-      let displayStyle = askForm.style.display === 'block' ? 'none' : 'block'
-      askForm.style.display = displayStyle
-    }, 300);
-  })
-})
+import './persimmon/ask_form'

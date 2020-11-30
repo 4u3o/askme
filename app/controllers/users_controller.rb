@@ -30,6 +30,8 @@ class UsersController < ApplicationController
       Question.new(text: 'Как дела?', created_at: Date.parse('27.03.2016'))
     ]
 
+    @questions_count = @questions.size
+
     @new_question = Question.new
   end
 end
