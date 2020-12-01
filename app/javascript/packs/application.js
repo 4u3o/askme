@@ -15,4 +15,4 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import './persimmon/ask_form'
+import './source/ask_form'
