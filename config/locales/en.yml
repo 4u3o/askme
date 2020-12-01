@@ -30,4 +30,12 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  question:
+    one: question
+    other: questions
+  answer:
+    one: answer
+    other: answer
+  unanswered:
+    one: unanswered
+    other: unanswered
