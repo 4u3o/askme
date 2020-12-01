@@ -12,8 +12,12 @@
     @<%= @user.username %>
   </h2>
 
+  <div class="buffer-both">
+    <%= link_to 'Редактировать профиль', edit_user_path(@user) if current_user == @user %>
+  </div>
+
   <p>
-    <%= @questions_count %> <%= declension @questions_count, 'вопрос', 'вопроса', 'вопросов' %>
+    <%= @questions.size %> <%= declension @questions.size, 'вопрос', 'вопроса', 'вопросов' %>
   </p>
 
   <div class="user-ask-button container text-center">
