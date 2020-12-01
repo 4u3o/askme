@@ -31,5 +31,11 @@
 
 en:
   question:
-    one: '1 question'
-    other: '%{count} questions'
+    one: question
+    other: questions
+  answer:
+    one: answer
+    other: answer
+  unanswered:
+    one: unanswered
+    other: unanswered
