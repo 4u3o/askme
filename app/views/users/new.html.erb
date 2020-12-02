@@ -2,12 +2,13 @@
   <h1 class="title-medium">Присоединяйся к нам!</h1>
 
   <div class="column-1-2">
+    # Пытался изменить на form_with и все сломалось
     <%= form_for @user do |f| %>
       <% if @user.errors.any? %>
         <div class="form-errors">
           <ul>
-            <% for message in @user.errors.full_messages %>
-              <li class="form-error-message"><%= message %></li>
+            <% @user.errors.full_messages.each do |message| %>
+              <li class="form-error-message"><%=  message  %></li>
             <% end %>
           </ul>
         </div>

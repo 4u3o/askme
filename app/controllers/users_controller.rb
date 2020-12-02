@@ -1,24 +1,21 @@
 class UsersController < ApplicationController
-  # TODO: Добавить проверку на залогиненность перед экшеном
   before_action :load_user, except: [:index, :create, :new]
   before_action :authorize_user, except: [:index, :new, :create, :show]
+  before_action :current_user_redirect_to_root, only: [:new, :create]
 
   def index
     @users = User.all
   end
 
   def new
-    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
-
     @user = User.new
   end
 
   def create
-    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
-
     @user = User.new(user_params)
 
     if @user.save
+      session[:user_id] = @user.id
       redirect_to root_url, notice: 'Пользователь успешно зарегистрирован!'
     else
       render 'new'
@@ -58,5 +55,9 @@ class UsersController < ApplicationController
 
   def authorize_user
     reject_user unless @user == current_user
+  end
+
+  def current_user_redirect_to_root
+    redirect_to root_url, alert: 'Вы уже залогинены' if current_user.present?
   end
 end
