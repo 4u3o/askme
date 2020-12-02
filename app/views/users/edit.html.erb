@@ -51,5 +51,11 @@
       <%= f.submit 'Сохранить', class: 'button button-dark button-small' %>
     </div>
     <% end %>
+
+    <div class="form-action buffer-top">
+      <%= link_to 'Удалить пользователь', user_path(@user), method: :delete,
+                  data: {confirm: 'Точно удалить пользователя?'},
+                  class: 'button button-red button-small' %>
+    </div>
   </div>
 </div>

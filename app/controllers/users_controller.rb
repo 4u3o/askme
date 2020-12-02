@@ -41,6 +41,16 @@ class UsersController < ApplicationController
     @unanswered_count = @questions_count - @answers_count
   end
 
+  def destroy
+    if current_user == @user && @user.present?
+      @user.destroy
+      session[:user_id] = nil
+      redirect_to root_url, notice: 'Пользователь удален'
+    else
+      render 'edit'
+    end
+  end
+
   private
 
   def load_user
