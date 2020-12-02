@@ -35,7 +35,7 @@ module Askme
     config.time_zone = 'Moscow'
 
     config.i18n.default_locale = :ru
-    config.i18n.available_locales = [:ru, :en]
+    config.i18n.locale = :en
 
     config.i18n.fallbacks = [:en]
   end
