@@ -41,3 +41,14 @@
 .question-actions a {
   margin-left: 10px;
 }
+
+.question-author {
+  font-style: italic;
+  font-size: 14px;
+  color: #2e2f41;
+  border-bottom: 1px solid #D9E6E5;
+}
+
+.question-author:hover {
+  opacity: 0.8;
+}
