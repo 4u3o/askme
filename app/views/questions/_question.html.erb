@@ -8,9 +8,9 @@
     </div>
 
 
-    <% if question.user.present? %>
+    <% if question.author.present? %>
       <div class="question-author text-lead">
-        <%= link_to "@#{question.user.username}", user_path(question.user.id) %>
+        <%= link_to "@#{question.author.username}", user_path(question.author.id) %>
       </div>
     <% end %>
 
