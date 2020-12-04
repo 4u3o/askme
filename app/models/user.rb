@@ -20,7 +20,7 @@ class User < ApplicationRecord
   validates :password, confirmation: true, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
   validates :background_color,
-            length: { maximum: 7 }, format: { with: /#\p{Alnum}{6}/}
+            length: { maximum: 7 }, format: { with: /#\p{XDigit}{6}/}
 
   before_validation :downcase_username, :downcase_email
   before_save :encrypt_password
