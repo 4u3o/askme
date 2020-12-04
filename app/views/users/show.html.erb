@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'source/ask_form' %>
+
 <div class="user-header text-center" style="background: <%= @user.background_color %>">
   <h1 class="title-medium">
     <%= @user.name %>
@@ -18,7 +20,7 @@
 
   <div class="user-details">
     <div class="user-ask-button container text-center">
-      <%= link_to "Спроси меня", '', class: 'button button-light', id: 'ask-button' %>
+      <%= link_to "Спроси меня", '#', class: 'button button-light', id: 'ask-button' %>
     </div>
 
     <div class="user-statistics container text-center">
@@ -59,10 +61,12 @@
 
 <div class="column-3-4">
   <div class="user-questions buffer-both">
-    <div class="questions-list">
-      <% @questions.each do |question| %>
-        <%= render partial: 'questions/question', object: question %>
-      <% end %>
-    </div>
+    <% unless @questions.empty? %>
+      <div class="questions-list">
+        <% @questions.each do |question| %>
+          <%= render partial: 'questions/question', object: question %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

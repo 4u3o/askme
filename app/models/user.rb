@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   attr_accessor :password
 
-  has_many :questions
+  has_many :questions, dependent: :destroy
 
   validates :email,
             presence: true, uniqueness: true,
@@ -16,7 +16,8 @@ class User < ApplicationRecord
             length: { maximum: 40 }, format: { without: /\W/ }
   validates :password, confirmation: true, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
-  validates :background_color, length: { maximum: 7 }
+  validates :background_color,
+            length: { maximum: 7 }, format: { with: /#\p{Alnum}{6}/}
 
   before_validation :downcase_username, :downcase_email
   before_save :encrypt_password
