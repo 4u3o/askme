@@ -14,7 +14,11 @@
 
     <div class="form-field">
       <%= f.label :text, 'Вопрос', class: 'form-label' %>
-      <%= f.text_area :text, class: 'form-textarea' %>
+      <% if current_user == @question.author %>
+        <%= f.text_area :text, class: 'form-textarea' %>
+      <% else %>
+        <%= f.text_area :text, class: 'form-textarea', disabled: true %>
+      <% end %>
     </div>
 
     <% if current_user.present? && current_user == @question.user %>

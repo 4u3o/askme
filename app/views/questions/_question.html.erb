@@ -23,6 +23,14 @@
     <div class="question-date">
       <%= l(question.created_at, format: :short) %>
     </div>
+
+    <% unless question.hashtags.empty? %>
+      <% question.hashtags.each do |hashtag| %>
+        <span>
+          <%= link_to hashtag.tag, hashtag_path(hashtag.id) %>
+        </span>
+      <% end %>
+    <% end %>
   </div>
 
   <% if question.user == current_user %>

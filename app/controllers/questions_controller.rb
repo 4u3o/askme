@@ -1,6 +1,9 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:edit, :update, :destroy]
   before_action :authorize_user, except: [:create]
+  before_action :find_tags, only: [:create, :update]
+  before_action :hashtags_update, only: [:update]
+  after_action :refresh_tags, only: [:destroy, :update]
 
   def edit
   end
@@ -8,6 +11,8 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     @question.author = current_user
+
+    hashtags_update
 
     if @question.save
       redirect_to user_path(@question.user), notice: 'Вопрос задан'
@@ -38,6 +43,33 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def find_tags
+    text = [question_params[:text], question_params[:answer]].join(' ')
+    @tags_after_update = text.scan(/#[\p{Word}-]+/i).uniq
+    @tags_after_update.map!(&:downcase)
+  end
+
+  # Много запросов
+  def hashtags_update
+    tags_before_update = @question.hashtags.pluck(:tag)
+
+    outdated_tags = @question.hashtags.where(tag: tags_before_update - @tags_after_update)
+
+    @question.hashtags.delete(outdated_tags)
+
+    new_tags = @tags_after_update - tags_before_update
+
+    if new_tags
+      new_tags.each do |tag|
+        @question.hashtags << Hashtag.find_or_create_by(tag: tag)
+      end
+    end
+  end
+
+  def refresh_tags
+    Hashtag.left_joins(:questions).where(questions: { id: nil }).destroy_all
   end
 
   def question_params
