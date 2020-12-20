@@ -1,35 +1,38 @@
 class Question < ApplicationRecord
   belongs_to :user
   belongs_to :author, class_name: 'User', foreign_key: 'author_id', optional: true
-  has_and_belongs_to_many :hashtags # dependent: :destroy
+  has_and_belongs_to_many :hashtags
 
   validates :text, presence: true, length: { maximum: 255 }
 
-  after_save :find_tags, :hashtags_update, :refresh_tags
+  after_save :hashtags_update, :hashtags_destroy
+  after_destroy :hashtags_destroy
 
-  def find_tags
-    question_text = [text, answer].join(' ')
-    @tags_after_update = question_text.scan(/#[\p{Word}-]+/i).uniq
-    @tags_after_update.map!(&:downcase)
-  end
+  private
 
   def hashtags_update
-    tags_before_update = hashtags.pluck(:tag)
+    @tags_after_update =
+      [text, answer].join(' ')
+                    .scan(/#[\p{Word}-]+/i).uniq.map(&:downcase)
 
-    outdated_tags = hashtags.where(tag: tags_before_update - @tags_after_update)
+    unless @tags_after_update.empty?
+      tags_before_update = hashtags.pluck(:tag)
 
-    hashtags.delete(outdated_tags)
+      outdated_tags = hashtags.where(tag: tags_before_update - @tags_after_update)
 
-    new_tags = @tags_after_update - tags_before_update
+      hashtags.delete(outdated_tags)
 
-    if new_tags
-      new_tags.each do |tag|
-        hashtags << Hashtag.find_or_create_by(tag: tag)
+      new_tags = @tags_after_update - tags_before_update
+
+      if new_tags
+        new_tags.each do |tag|
+          hashtags << Hashtag.find_or_create_by(tag: tag)
+        end
       end
     end
   end
 
-  def refresh_tags
+  def hashtags_destroy
     Hashtag.left_joins(:questions).where(questions: { id: nil }).destroy_all
   end
 end
