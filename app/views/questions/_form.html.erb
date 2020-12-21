@@ -1,3 +1,5 @@
+<%# include Recaptcha::Adapters::ViewMethods %>
+
 <div class="form">
   <%= form_for @question do |f| %>
     <% if @question.errors.any? %>
@@ -27,6 +29,8 @@
         <%= f.text_area :answer, class: 'form-textarea' %>
       </div>
     <% end %>
+
+    <%= recaptcha_v3(action: 'create_question') unless current_user.present? %>
 
     <div class="form-action buffer-both">
       <%= f.submit 'Сохранить', class: 'button button-dark button-small' %>

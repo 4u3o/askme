@@ -1,4 +1,25 @@
 ru:
+  activerecord:
+    models:
+      question: Вопрос
+    attributes:
+      question:
+        text: Вопрос
+        answer: Ответ
+      user:
+        name: Имя
+        username: Логин
+        email: Email
+        avatar_url: URL аватарки
+        background_color: Цвет фона
+        password: Пароль
+        password_confirmation: Подтверждение пароля
+
+  recaptcha:
+    errors:
+      verification_failed: reCAPTCHA думает что вы - робот, попробуйте еще раз
+      recaptcha_unreachable: reCAPTCHA сервер приказал долго жить, аминь
+
   question:
     zero: вопросов
     one: вопрос
