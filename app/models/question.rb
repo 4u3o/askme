@@ -15,13 +15,16 @@ class Question < ApplicationRecord
       [text, answer].join(' ')
                     .scan(/#[\p{Word}-]+/i).uniq.map(&:downcase)
 
-    unless @tags_after_update.empty?
-      tags_before_update = hashtags.pluck(:tag)
 
+    tags_before_update = hashtags.pluck(:tag)
+
+    unless @tags_after_update == tags_before_update
       outdated_tags = hashtags.where(tag: tags_before_update - @tags_after_update)
 
-      hashtags.delete(outdated_tags)
+      hashtags.delete(outdated_tags) unless outdated_tags.empty?
+    end
 
+    unless @tags_after_update.empty?
       new_tags = @tags_after_update - tags_before_update
 
       if new_tags

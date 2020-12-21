@@ -33,11 +33,14 @@
     <% end %>
   </div>
 
-  <% if question.user == current_user %>
-    <div class="question-actions">
+  <div class="question-actions">
+    <% if question.user == current_user %>
       <%= link_to fa_icon(action_icon), edit_question_path(question) %>
+    <% end %>
+
+    <% if question.user == current_user || question.author == current_user %>
       <%= link_to fa_icon('trash-o'), question_path(question),
                   method: :delete, data: {confirm: 'Точно удалить вопрос?'} %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
