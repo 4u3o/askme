@@ -9,9 +9,4 @@ class HashtagsController < ApplicationController
   def set_hashtag
     @hashtag = Hashtag.find(params[:id])
   end
-
-  # Only allow a list of trusted parameters through.
-  def hashtag_params
-    params.fetch(:hashtag, {})
-  end
 end
