@@ -7,6 +7,6 @@ class HashtagsController < ApplicationController
   private
 
   def set_hashtag
-    @hashtag = Hashtag.find(params[:id])
+    @hashtag = Hashtag.find_by(tag: params[:tag])
   end
 end

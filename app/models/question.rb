@@ -5,7 +5,7 @@ class Question < ApplicationRecord
 
   validates :text, presence: true, length: { maximum: 255 }
 
-  after_commit :hashtags_update
+  after_save_commit :hashtags_update
 
   private
 

@@ -27,7 +27,7 @@
     <% unless question.hashtags.empty? %>
       <% question.hashtags.each do |hashtag| %>
         <span>
-          <%= link_to hashtag.tag, hashtag_path(hashtag.id) %>
+          <%= link_to hashtag.tag, hashtag_path(hashtag.tag) %>
         </span>
       <% end %>
     <% end %>
